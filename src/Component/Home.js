@@ -64,6 +64,7 @@ export default class Home extends React.Component
                 <img src={this.state.preview} style={{height: "300px", width: "300px"}}/>
                 &nbsp;&nbsp;&nbsp;
                 <img src={"https://facial-rec-1992-known-bucket.s3.amazonaws.com/"+this.state.match} style={{height: "300px", width: "300px"}}/>
+                <h1> my name is soumyadeep</h1>
             </div>
 
 
