@@ -9,10 +9,10 @@ export default class Home extends React.Component {
     constructor() {
         super();
         this.createModule = this.createModule.bind(this);
-        this.upload = this.upload.bind(this);
         this.fs = FaceService.instance;
         this.state = {
             match: slytherin,
+            matchini: slytherin,
             face: null,
         };
     }
@@ -41,56 +41,47 @@ export default class Home extends React.Component {
 
     }
 
-    upload() {
 
-        this.fs.upload(this.state.face).then((res) => {
-            this.createModule(res)
-        })
-
-
-    }
 
     fileSelectedHandler = event => {
         this.setState({
             face: event.target.files[0],
-            match: URL.createObjectURL(event.target.files[0])
+            matchini: URL.createObjectURL(event.target.files[0])
         })
-        console.log(event.target.files[0])
+        this.fs.upload(event.target.files[0]).then((res) => {
+            this.createModule(res)
+        })
+
     }
 
     render() {
-        let image;
-        if (this.state.match != null) {
-            image = <div className={"card"} style={{width: "18rem"}}>
-                <img className={"card-img-top"} src={this.state.match} style={{height: "300px", width: "286px"}}/>
-                {/*<div className={"card-body"}>*/}
-                {/*    <p className={"card-text"}>{this.state.dist}</p>*/}
-                {/*</div>*/}
-            </div>
-        } else {
-
-        }
-
 
         return (
 
             <div>
                 <div className={"container-fluid"}>
                     <h1> Celebrity Twin</h1>
-                    <div className={"mirror"}>
-                        {image}
-                        <input style={{display: 'none'}} type="file" onChange={this.fileSelectedHandler}
-                               ref={fileInput => this.fileInput = fileInput}/>
-                        <div className={"buttonPicker"}>
-                            <button style={{width: "137px"}} type="button" className="btn btn-success"
-                                    onClick={() => this.fileInput.click()}>Pick
-                            </button>
-                            &nbsp;&nbsp;&nbsp;
-                            <button style={{width: "137px"}} type="button" className="btn btn-success"
-                                    onClick={this.upload}>Upload
-                            </button>
+
+                    <div className={"flip-card"}>
+                        <div className={"flip-card-inner"}>
+                            <div className={"flip-card-front"}>
+                                <div className={"card"} style={{width: "18rem"}}>
+                                    <input style={{display: 'none'}} type="file" onChange={this.fileSelectedHandler}
+                                           ref={(fileInput) => {this.fileInput = fileInput;}}/>
+                                    <img className={"card-img-top"} src={this.state.matchini} style={{height: "300px", width: "286px"}} onClick={() => this.fileInput.click()}/>
+                                </div>
+                            </div>
+                            <div className={"flip-card-back"}>
+                                <div className={"card"} style={{width: "18rem"}}>
+                                    <input style={{display: 'none'}} type="file" onChange={this.fileSelectedHandler}
+                                           ref={fileInput => this.fileInput = fileInput}/>
+                                    <img className={"card-img-top"} src={this.state.match} style={{height: "300px", width: "286px"}} onClick={() => this.fileInput.click()}/>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
+
                 </div>
             </div>
 
